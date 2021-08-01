@@ -5,22 +5,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0-*" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="GmodNET.VersionTool.MSBuild" Version="2.0.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
