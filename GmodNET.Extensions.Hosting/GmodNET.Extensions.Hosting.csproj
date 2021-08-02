@@ -7,6 +7,13 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Description>An extension library to build Gmod.NET optimized .NET Generic Hosts.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/GmodNET/Extensions.git</RepositoryUrl>
+    <PackageIcon>gmodnetlogo.png</PackageIcon>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
@@ -23,6 +30,7 @@
 
   <ItemGroup>
     <VersionFile Include="../version.json" />
+    <Content Include="../gmodnetlogo.png" PackagePath="/" />
   </ItemGroup>
 
 </Project>
