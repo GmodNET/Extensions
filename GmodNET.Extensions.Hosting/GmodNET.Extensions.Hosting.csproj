@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <DocumentationFile>obj/GmodNET.Extensions.Hosting.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
