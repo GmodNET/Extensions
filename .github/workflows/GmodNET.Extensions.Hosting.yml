@@ -1,0 +1,46 @@
+name: GmodNET.Extensions.Hosting CI
+
+env:
+  RUNTIME_DOWNLOAD_LINK: https://github.com/GmodNET/runtime-nightly/releases/download/0.7.0-beta.2.51521395.main/gmod-dot-net-linux.0.7.0-beta.2.51521395.main.tar.gz
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-deploy:
+  
+    name: Test and Deploy
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1.8.1
+      
+    - name: Download Steam and Install Garry's Mod Dedicated Server
+      run: |
+           wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+           tar -xvzf steamcmd_linux.tar.gz
+           rm -rfv steamcmd_linux.tar.gz
+           ./steamcmd.sh +login anonymous +force_install_dir gmod "+app_update 4020 -beta x86-64 validate" +quit
+           
+    - name: Build tests
+      run: dotnet publish ./GmodNET.Extensions.Hosting.Tests/GmodNET.Extensions.Hosting.Tests.csproj -o ./gmod/garrysmod/lua/bin/Modules/GmodNET.Extensions.Hosting.Tests
+      
+    - name: Get Gmod.NET Runtime
+      run: |
+           wget -O runtime.tar.gz ${{ env.RUNTIME_DOWNLOAD_LINK }}
+           tar xvf runtime.tar.gz
+      working-directory: ./gmod/garrysmod/lua/bin/
+      
+    - name: Copy Lua files
+      run: cp ./GmodNET.Extensions.Hosting.Tests/run_tests.lua ./gmod/garrysmod/lua/autorun
+      
+    - name: Run tests in Garry's Mod
+      run: ./srcds_run_x64 -game garrysmod -systemtest +sv_hibernate_think 1 || true
+      working-directory: ./gmod/
+      timeout-minutes: 1
