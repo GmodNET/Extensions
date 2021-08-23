@@ -6,6 +6,8 @@ env:
 on:
   push:
   pull_request:
+  release:
+    types: [published]
 
 jobs:
   test-and-deploy:
@@ -44,3 +46,17 @@ jobs:
       run: ./srcds_run_x64 -game garrysmod -systemtest +sv_hibernate_think 1 || true
       working-directory: ./gmod/
       timeout-minutes: 1
+      
+    - name: Pack nupkgs
+      if: ${{ github.event_name != 'pull_request' }}
+      run: dotnet pack ./GmodNET.Extensions.Hosting/GmodNET.Extensions.Hosting.csproj -c Release -o nupkgs/
+      
+    - name: Upload nupkgs to Azure DevOps
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+           dotnet nuget update source gmodnet-packages --username CI --password ${{ secrets.AZURE_DEVOPS_ARTIFACTS_PAT }} --store-password-in-clear-text
+           dotnet nuget push nupkgs/**.nupkg --source gmodnet-packages --api-key az --skip-duplicate
+           
+    - name: Upload nupkgs to NuGet.org
+      if: ${{ github.event_name == 'release' }}
+      run: dotnet nuget push nupkgs/**.nupkg --source nuget --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
