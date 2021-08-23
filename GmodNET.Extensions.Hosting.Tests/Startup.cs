@@ -8,9 +8,11 @@ namespace GmodNET.Extensions.Hosting.Tests
 {
     public class Startup
     {
+        IConfiguration config;
+
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-           
+           config = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -25,7 +27,8 @@ namespace GmodNET.Extensions.Hosting.Tests
             app.Run(async request =>
             {
                 request.Response.StatusCode = 200;
-                await request.Response.WriteAsync("Hello gmod!");
+                request.Response.Headers.Add("Content-Type", "text/plain");
+                await request.Response.WriteAsync(config["TestString"]);
             });
         }
     }
