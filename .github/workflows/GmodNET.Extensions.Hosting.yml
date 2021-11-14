@@ -1,7 +1,7 @@
 name: GmodNET.Extensions.Hosting CI
 
 env:
-  RUNTIME_DOWNLOAD_LINK: https://github.com/GmodNET/runtime-nightly/releases/download/0.7.0-rc.1.58638981.main/gmod-dot-net-linux.0.7.0-rc.1.58638981.main.tar.gz
+  RUNTIME_DOWNLOAD_LINK: https://github.com/GmodNET/runtime-nightly/releases/download/0.7.0/gmod-dot-net-linux.0.7.0.tar.gz
 
 on:
   push:
